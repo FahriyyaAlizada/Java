@@ -51,7 +51,7 @@ class Sep17 {
 	       
 	      int num2 = input.nextInt();
 	      int bolen = 0;
-	        for (int i=1; i<24; i++) {
+	        for (int i=1; i<num2 +1; i++) {
 	            if(num2%i == 0) {
 	                bolen++;
 	            }}
