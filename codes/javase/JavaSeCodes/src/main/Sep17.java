@@ -5,12 +5,12 @@ class Sep17 {
 	public static void main(String[] args) {
 		
 //		int count = 6;
-//		int count2 = count++; //7 // post incerement
+//		int count2 = count++; //7 // post increment
 //		System.out.println(count); //7
 //		System.out.println(count2); //6
 //		
 //		int countt = 5;
-//		int countt2 = ++countt; // pre incerement
+//		int countt2 = ++countt; // pre increment
 //		System.out.println(countt); //6
 //		System.out.println(countt2); //6
 //		
@@ -95,12 +95,12 @@ class Sep17 {
             int sayi = 1;
             while (say<20) {
 	           sayi++;
-	           int bolen = 0;
+	           int bolenn = 0;
 	           for (int i=1; i<sayi+1; i++) {
 	            if(sayi%i == 0) {
-	                bolen++;
+	                bolenn++;
 	            }}
-	           if(bolen == 2) {
+	           if(bolenn == 2) {
 	               System.out.println(sayi);
 	               say++;
 	           }
@@ -156,6 +156,7 @@ class Sep17 {
                 System.out.println(i);
             }
         } // tapşırıq 2
+        input.close();
 	}
 
 }
