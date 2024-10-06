@@ -7,12 +7,14 @@ public class Rectangle {
 		this.length = length;
 		this.width = width;
 	}
-	public void calculateAreaRec() {
+	public double calculateAreaRec() {
 		double area = length * width;
 		System.out.println("The area of your rectangle is: " + area);
+		return area;
 	}
-	public void calculatePerimeterRec() {
+	public double calculatePerimeterRec() {
 		double perimeter = (length + width) * 2;
 		System.out.println("The perimeter of your rectangle is: " + perimeter);
+		return perimeter;
 	}
 }
