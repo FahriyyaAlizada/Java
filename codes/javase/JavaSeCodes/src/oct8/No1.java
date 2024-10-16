@@ -27,12 +27,14 @@ public class No1 {
         if (num%10==0) {
 			num=num/10;
 		}
+        int reverseNum = 0;
         while (num!=0) {
 			int lastNum = num%10;
-			newNum += lastNum;
+			//newNum += lastNum;
+			reverseNum = reverseNum *10 + lastNum;
 			num=num/10;
 		}
-        System.out.println(newNum);
+        System.out.println(reverseNum);
 
 	}
 
