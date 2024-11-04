@@ -11,7 +11,13 @@ public class MainClass {
 		// book1.page = 256;
 		book1.name = "The Big Four";
 		// book1.releaseDate = 1927;
-
+		
+		book1.showAuthor();
+		book1.showPage();
+		book1.showName();
+		book1.showReleaseDate();
+		
+		Book.finalValue(6);
 	}
 
 }
