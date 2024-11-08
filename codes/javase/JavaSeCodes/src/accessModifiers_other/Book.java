@@ -31,18 +31,18 @@ public class Book {
 		System.out.println("Release Date: " + releaseDate);
 	}
 	
-	Book(String author) {
-		this.author = author;
-	}
-	public Book(int page) {
-		this.page = page;
-	}
-	protected Book(String name) {
-		this.name = name;
-	}
-	private Book(int releaseDate) {
-		this.releaseDate = releaseDate;
-	}
+	// Book(String author) {
+	// 	this.author = author;
+	// }
+	// public Book(int page) {
+	// 	this.page = page;
+	// }
+	// protected Book(String name) {
+	// 	this.name = name;
+	// }
+	// private Book(int releaseDate) {
+	// 	this.releaseDate = releaseDate;
+	// }
 	
 	static int count = 0;
 	public static void finalValue(final int value) {
