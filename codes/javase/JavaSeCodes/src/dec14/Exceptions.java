@@ -29,7 +29,7 @@ public class Exceptions {
 		
 		// StringIndexOutOfBoundsException
 		try {
-            String str = "Programming";
+            String str = "Hello World!";
             char letter = str.charAt(12); 
         } catch (StringIndexOutOfBoundsException e) {
             System.out.println("Error: Unexpected index of string");
