@@ -1,6 +1,6 @@
 package dec25;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class Collection<T> {
@@ -8,7 +8,7 @@ public class Collection<T> {
 	private Set<T> hs;
 
 	public Collection() {
-		hs = new HashSet<>();
+		hs = new LinkedHashSet<>();
 	}
 	
 	public void addElement(T element) {
