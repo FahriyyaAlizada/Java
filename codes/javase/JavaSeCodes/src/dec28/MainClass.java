@@ -1,6 +1,8 @@
 package dec28;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class MainClass {
@@ -38,6 +40,36 @@ public class MainClass {
 			sum+=value;
 		}
 		System.out.println("Arithmetic mean: " + sum/count);
+		
+		// TASK => 04.01.2025
+		
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		list.add(1);
+        list.add(2);
+        list.add(3);
+        list.add(1);
+        list.add(2);
+        list.add(4);
+        list.add(5);
+        list.add(5);
+        Map<Integer,Integer> listMap = new LinkedHashMap<Integer, Integer>();
+        for (Integer integer : list) {
+			if (listMap.containsKey(integer)) {
+				int count2 = listMap.get(integer);
+				count2++;
+				listMap.replace(integer, count2);
+			} else {
+				listMap.put(integer, 1);
+
+			}
+		}
+        for (Integer key : listMap.keySet()) {
+			if (listMap.get(key)>1) {
+				System.out.println(key);
+			}
+		}
+		
+		
 	}
 
 }
