@@ -23,6 +23,12 @@ public class TeacherEntity {
 		this.username = username;
 		this.password = password;
 	}
+	
+
+	public TeacherEntity() {
+		super();
+	}
+
 
 	public int getId() {
 		return Id;

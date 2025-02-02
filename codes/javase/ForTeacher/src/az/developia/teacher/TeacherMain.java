@@ -15,13 +15,17 @@ public class TeacherMain {
 		TeacherEntity teacher = new TeacherEntity(2, "Jack", "Brown", "043", "River st.", "jack_brown", "189");
 		TeacherRepository repo = new TeacherRepository();
 		
+		System.out.println(repo.getTeacherInfo(1));
+		System.out.println(repo.getTeacherInfo(2));
+		
+
 		TeacherGroupEntity teacherGroup=new TeacherGroupEntity(null, "a3", LocalDateTime.now(), 2);
 		
 		TeacherGroupRepository groupRepo=new TeacherGroupRepository();
 		
 		groupRepo.addGroup(teacherGroup);
 		
-		groupRepo.deleteGroup(1);
+		groupRepo.deleteGroup(2);
 		
 		System.out.println(groupRepo.getAllTeacherGroup(2));
 		

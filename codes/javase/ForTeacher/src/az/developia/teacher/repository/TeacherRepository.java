@@ -4,8 +4,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import az.developia.teacher.entity.TeacherEntity;
+import az.developia.teacher.entity.TeacherGroupEntity;
 import az.developia.teacher.exception.MyRuntimeException;
 
 public class TeacherRepository {
@@ -68,6 +70,29 @@ public class TeacherRepository {
 
 			return userExists;
 
+		}
+		
+		public TeacherEntity getTeacherInfo(Integer id){
+			String query="SELECT * FROM teacher where id='"+id+"';";
+			TeacherEntity teacherInfo=new TeacherEntity();
+			try {
+				Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/java_teacher?useSSL=false&useTimezone=true&serverTimezone=UTC","root","antalya07");
+				Statement st = conn.createStatement();
+				ResultSet result=st.executeQuery(query);
+				result.next();
+				teacherInfo.setId(result.getInt("Id"));
+				teacherInfo.setName(result.getString("name"));
+				teacherInfo.setSurname(result.getString("surname"));
+				teacherInfo.setPhone(result.getString("phone"));
+				teacherInfo.setUsername(result.getString("username"));
+				teacherInfo.setPassword(result.getString("password"));
+				conn.close();
+
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
+;
+			return teacherInfo;
 		}
 	
 }
