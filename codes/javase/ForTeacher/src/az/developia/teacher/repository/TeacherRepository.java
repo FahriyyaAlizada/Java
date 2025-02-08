@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import az.developia.teacher.Constant;
 import az.developia.teacher.entity.TeacherEntity;
 import az.developia.teacher.entity.TeacherGroupEntity;
 import az.developia.teacher.exception.MyRuntimeException;
@@ -22,7 +23,7 @@ public class TeacherRepository {
 				+ "('"+teacher.getName()+"','"+teacher.getSurname()+"','"+teacher.getPhone()+"','"+teacher.getAddress()+"','"+teacher.getUsername()+"','"+teacher.getPassword()+"')";
 		
 		try {
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/java_teacher?useSSL=false&useTimezone=true&serverTimezone=UTC","root","antalya07");
+			Connection conn = DriverManager.getConnection(Constant.url,Constant.username,Constant.password);
 			Statement st = conn.createStatement();
 			st.executeUpdate(query);
 			conn.close();
@@ -35,7 +36,7 @@ public class TeacherRepository {
 		boolean userExists = false;
 		String query = "SELECT count(*) FROM teacher where username ='"+username+"';";
 		try {
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/java_teacher?useSSL=false&useTimezone=true&serverTimezone=UTC","root","antalya07");
+			Connection conn = DriverManager.getConnection(Constant.url,Constant.username,Constant.password);
 			Statement st = conn.createStatement();
 			ResultSet result = st.executeQuery(query);
 			result.next();
@@ -53,7 +54,7 @@ public class TeacherRepository {
 			String query = "SELECT count(*) FROM teacher where username='" + username + "' and password='"+password+"';";
 
 			try {
-				Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/java_teacher?useSSL=false&useTimezone=true&serverTimezone=UTC","root","antalya07");
+				Connection conn = DriverManager.getConnection(Constant.url,Constant.username,Constant.password);
 				Statement st = conn.createStatement();
 
 				ResultSet result = st.executeQuery(query);
@@ -76,16 +77,20 @@ public class TeacherRepository {
 			String query="SELECT * FROM teacher where id='"+id+"';";
 			TeacherEntity teacherInfo=new TeacherEntity();
 			try {
-				Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/java_teacher?useSSL=false&useTimezone=true&serverTimezone=UTC","root","antalya07");
+				Connection conn = DriverManager.getConnection(Constant.url,Constant.username,Constant.password);
 				Statement st = conn.createStatement();
 				ResultSet result=st.executeQuery(query);
-				result.next();
-				teacherInfo.setId(result.getInt("Id"));
-				teacherInfo.setName(result.getString("name"));
-				teacherInfo.setSurname(result.getString("surname"));
-				teacherInfo.setPhone(result.getString("phone"));
-				teacherInfo.setUsername(result.getString("username"));
-				teacherInfo.setPassword(result.getString("password"));
+				if (result.next()) {
+					teacherInfo.setId(result.getInt("Id"));
+					teacherInfo.setName(result.getString("name"));
+					teacherInfo.setSurname(result.getString("surname"));
+					teacherInfo.setPhone(result.getString("phone"));
+					teacherInfo.setUsername(result.getString("username"));
+					teacherInfo.setPassword(result.getString("password"));
+				} else {
+					System.out.println("Id:" + id + " Not Found...");
+				}
+
 				conn.close();
 
 			} catch (Exception e) {

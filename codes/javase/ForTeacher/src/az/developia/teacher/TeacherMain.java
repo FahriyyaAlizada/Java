@@ -17,6 +17,7 @@ public class TeacherMain {
 		
 		System.out.println(repo.getTeacherInfo(1));
 		System.out.println(repo.getTeacherInfo(2));
+		System.out.println(repo.getTeacherInfo(3));
 		
 
 		TeacherGroupEntity teacherGroup=new TeacherGroupEntity(null, "a3", LocalDateTime.now(), 2);

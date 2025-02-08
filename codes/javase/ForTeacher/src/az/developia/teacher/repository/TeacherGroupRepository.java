@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import az.developia.teacher.Constant;
 import az.developia.teacher.entity.TeacherGroupEntity;
 import az.developia.teacher.exception.MyRuntimeException;
 
@@ -18,7 +19,7 @@ public class TeacherGroupRepository {
 				+"','"+teacherGroup.getTeacher_id()+"')";
 				
 		try {
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/java_teacher?useSSL=false&useTimezone=true&serverTimezone=UTC","root","antalya07");
+			Connection conn = DriverManager.getConnection(Constant.url,Constant.username,Constant.password);
 			Statement st = conn.createStatement();
 			st.executeUpdate(query);
 			conn.close();
@@ -34,7 +35,7 @@ public class TeacherGroupRepository {
 		ArrayList<TeacherGroupEntity> teacherGroup=new ArrayList<TeacherGroupEntity>();
 		String query="SELECT * FROM teacher_group where teacher_id='"+id+"';";
 		try {
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/java_teacher?useSSL=false&useTimezone=true&serverTimezone=UTC","root","antalya07");
+			Connection conn = DriverManager.getConnection(Constant.url,Constant.username,Constant.password);
 			Statement st = conn.createStatement();
 			ResultSet result=st.executeQuery(query);
 			while (result.next()) {
@@ -58,7 +59,7 @@ public class TeacherGroupRepository {
 	public void deleteGroup(Integer id) {
 		String query="DELETE FROM teacher_group WHERE Id='"+id+"';";
 		try {
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/java_teacher?useSSL=false&useTimezone=true&serverTimezone=UTC","root","antalya07");
+			Connection conn = DriverManager.getConnection(Constant.url,Constant.username,Constant.password);
 			Statement st = conn.createStatement();
 			st.executeUpdate(query);
 			conn.close();
