@@ -11,7 +11,7 @@ import az.developia.teacher.repository.TeacherRepository;
 public class TeacherMain {
 
 	public static void main(String[] args) {
-		
+
 		TeacherEntity teacher = new TeacherEntity(2, "Jack", "Brown", "043", "River st.", "jack_brown", "189");
 		TeacherRepository repo = new TeacherRepository();
 		
