@@ -45,6 +45,13 @@ public class SpringProject2sentyabrApplication {
 		System.out.println(bean4.getComputer().getBrand());
 		System.out.println(bean4.getName());
 		
+		///////////////////////////////////////////////////
+		Computer bean5 =run.getBean("myComp2", Computer.class);
+		System.out.println(bean5.getColor());
+		
+		Computer bean6 =run.getBean("myComp2", Computer.class);
+		System.out.println(bean6.getColor());
+		
 	}
 
 }
