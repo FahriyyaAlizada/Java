@@ -7,6 +7,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import az.developia.spring_project_2sentyabr.entity.Book;
 import az.developia.spring_project_2sentyabr.entity.Computer;
 import az.developia.spring_project_2sentyabr.entity.Employee;
+import az.developia.spring_project_2sentyabr.entity.Home;
 import az.developia.spring_project_2sentyabr.entity.Person;
 
 @SpringBootApplication
@@ -51,6 +52,12 @@ public class SpringProject2sentyabrApplication {
 		
 		Computer bean6 =run.getBean("myComp2", Computer.class);
 		System.out.println(bean6.getColor());
+		
+		Home bean7 =run.getBean("myHome1", Home.class);
+		System.out.println(bean7.getAddress());
+		
+		Home bean8 =run.getBean("myHome1", Home.class);
+		System.out.println(bean8.getColor());
 		
 	}
 
