@@ -16,5 +16,16 @@
         <li>The Big Four by Agatha Christie</li>
         <li>The Sign of the Four by Sir Arthur Conan Doyle</li>
     </ol>
+     <p>-----------------------------------</p>
+    <ul>
+		<li th:each="book : ${books}">
+			<p>
+				<strong>Name:</strong><span th:text="${book.getName()}"></span>
+			</p>
+			<p>
+				<strong>Page Count:</strong><span th:text="${book.getPageCount()}"></span>
+			</p>
+		</li>
+	</ul>
 </body>
 </html>

@@ -16,6 +16,12 @@ public class Book {
 		this.price=6.5;
 		this.pageCount=254;
 	}
+	public Book(Integer id, String name, Double price, Integer pageCount) {
+		this.id = id;
+		this.name = name;
+		this.price = price;
+		this.pageCount = pageCount;
+	}
 
 	public Integer getId() {
 		return id;
