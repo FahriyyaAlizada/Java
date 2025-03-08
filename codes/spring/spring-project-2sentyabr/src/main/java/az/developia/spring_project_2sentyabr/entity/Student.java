@@ -1,8 +1,11 @@
 package az.developia.spring_project_2sentyabr.entity;
 
+import jakarta.validation.constraints.Size;
+
 public class Student {
 
 	private Integer id;
+	@Size(min=2, max=40, message="name should be between 2-40 symbols...")
 	private String name;
 	private String surname;
 	
