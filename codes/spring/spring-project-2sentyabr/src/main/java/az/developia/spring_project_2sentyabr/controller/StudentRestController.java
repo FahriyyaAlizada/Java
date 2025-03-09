@@ -36,6 +36,19 @@ public class StudentRestController {
 		students.add(new Student(170, "Victor", "Crane"));
 		students.add(new Student(171, "Lila ", "Rivers"));
 		
+		for (Student student2 : students) {
+			try {
+				Connection connection = dataSource.getConnection();
+				Statement st=connection.createStatement();
+				String query = "insert into students(name,surname) values('"+student2.getName()+"','"+student2.getSurname()+"')";
+				st.executeUpdate(query);
+				connection.close();
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
+		}
+		
+		
 		return students;
 	}
 	
