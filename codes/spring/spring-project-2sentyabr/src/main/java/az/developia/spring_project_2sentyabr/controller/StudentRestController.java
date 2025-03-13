@@ -1,6 +1,7 @@
 package az.developia.spring_project_2sentyabr.controller;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,14 +18,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import az.developia.spring_project_2sentyabr.entity.Student;
 import az.developia.spring_project_2sentyabr.exception.OurRuntimeException;
+import az.developia.spring_project_2sentyabr.repository.StudentRepository;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(path="/api/student")
 public class StudentRestController {
 	
+//	@Autowired
+//	private DataSource dataSource;
+	
 	@Autowired
-	private DataSource dataSource;
+	private StudentRepository studentRepository;
 
 	@GetMapping
 	public List<Student> getStudents(){
@@ -36,17 +41,22 @@ public class StudentRestController {
 		students.add(new Student(170, "Victor", "Crane"));
 		students.add(new Student(171, "Lila ", "Rivers"));
 		
-		for (Student student2 : students) {
-			try {
-				Connection connection = dataSource.getConnection();
-				Statement st=connection.createStatement();
-				String query = "insert into students(name,surname) values('"+student2.getName()+"','"+student2.getSurname()+"')";
-				st.executeUpdate(query);
-				connection.close();
-			} catch (Exception e) {
-				System.out.println(e.getMessage());
-			}
-		}
+//		try {
+//			Connection connection = dataSource.getConnection();
+//			Statement st=connection.createStatement();
+//			String query = "select * from students";
+//			ResultSet executeQuery = st.executeQuery(query);
+//			while (executeQuery.next()) {
+//				Student s = new Student();
+//				s.setId(executeQuery.getInt("id"));
+//				s.setName(executeQuery.getString("name"));
+//				s.setSurname(executeQuery.getString("surname"));
+//				students.add(s);
+//			}
+//			
+//		} catch (Exception e) {
+//			System.out.println(e.getMessage());
+//		}
 		
 		
 		return students;
@@ -59,14 +69,16 @@ public class StudentRestController {
 		}
 		System.out.println(student);
 		
-		try {
-			Connection connection = dataSource.getConnection();
-			Statement st=connection.createStatement();
-			String query = "insert into students(name,surname) values('"+student.getName()+"','"+student.getSurname()+"')";
-			st.executeUpdate(query);
-			connection.close();
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
+//		try {
+//			Connection connection = dataSource.getConnection();
+//			Statement st=connection.createStatement();
+//			String query = "insert into students(name,surname) values('"+student.getName()+"','"+student.getSurname()+"')";
+//			st.executeUpdate(query);
+//			connection.close();
+//		} catch (Exception e) {
+//			System.out.println(e.getMessage());
+//		}
+		
+		studentRepository.save(student);
 	}
 }

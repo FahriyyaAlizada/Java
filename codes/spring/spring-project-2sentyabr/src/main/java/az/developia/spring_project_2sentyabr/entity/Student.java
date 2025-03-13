@@ -1,9 +1,18 @@
 package az.developia.spring_project_2sentyabr.entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
 
+@Entity
+@Table(name = "students")
 public class Student {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	@Size(min=2, max=40, message="name should be between 2-40 symbols...")
 	private String name;
@@ -13,6 +22,9 @@ public class Student {
 		this.id = id;
 		this.name = name;
 		this.surname = surname;
+	}
+	
+	public Student() {
 	}
 
 	public Integer getId() {
