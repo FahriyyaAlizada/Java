@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,13 +34,14 @@ public class StudentRestController {
 
 	@GetMapping
 	public List<Student> getStudents(){
-		List<Student> students = new ArrayList<Student>();
 		
-		students.add(new Student(167, "Seraphina", "Voss"));
-		students.add(new Student(168, "Jaxon", "Whitmore"));
-		students.add(new Student(169, "Aria", "Blackwood"));
-		students.add(new Student(170, "Victor", "Crane"));
-		students.add(new Student(171, "Lila ", "Rivers"));
+//		List<Student> students = new ArrayList<Student>();
+//		
+//		students.add(new Student(167, "Seraphina", "Voss"));
+//		students.add(new Student(168, "Jaxon", "Whitmore"));
+//		students.add(new Student(169, "Aria", "Blackwood"));
+//		students.add(new Student(170, "Victor", "Crane"));
+//		students.add(new Student(171, "Lila ", "Rivers"));
 		
 //		try {
 //			Connection connection = dataSource.getConnection();
@@ -59,13 +61,13 @@ public class StudentRestController {
 //		}
 		
 		
-		return students;
+		return studentRepository.findAll();
 	}
 	
 	@PostMapping(path="/add")
 	public void addStudent(@Valid @RequestBody Student student, BindingResult br) {
 		if (br.hasErrors()) {
-			throw new OurRuntimeException(br);
+			throw new OurRuntimeException(br,"error");
 		}
 		System.out.println(student);
 		
@@ -80,5 +82,21 @@ public class StudentRestController {
 //		}
 		
 		studentRepository.save(student);
+		student.setId(null);
+	}
+	
+	@PutMapping(path="/update")
+	public void update(@Valid @RequestBody Student student, BindingResult br) {
+		if (br.hasErrors()) {
+			throw new OurRuntimeException(br,"error");
+		}
+		if (student.getId()==null || student.getId()==0) {
+			throw new OurRuntimeException(null,"id is mandatory");
+		}
+		if (studentRepository.findById(student.getId()).isPresent()) {
+			studentRepository.save(student);
+		} else {
+			throw new OurRuntimeException(null, "id can not be found");
+		}
 	}
 }
