@@ -5,12 +5,16 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -90,12 +94,41 @@ public class StudentRestController {
 		if (br.hasErrors()) {
 			throw new OurRuntimeException(br,"error");
 		}
-		if (student.getId()==null || student.getId()==0) {
+		if (student.getId()==null || student.getId()<=0) {
 			throw new OurRuntimeException(null,"id is mandatory");
 		}
 		if (studentRepository.findById(student.getId()).isPresent()) {
 			studentRepository.save(student);
 		} else {
+			throw new OurRuntimeException(null, "id can not be found");
+		}
+	}
+	
+	@DeleteMapping(path = "/{id}")
+	public ResponseEntity<String> deleteStudent(@PathVariable Integer id) {
+		if (id==null || id<=0) {
+			throw new OurRuntimeException(null, "id is mandatory");
+		}
+		Optional<Student> byId = studentRepository.findById(id);
+		if (byId.isPresent()) {
+			studentRepository.deleteById(id);
+		}
+		else {
+			throw new OurRuntimeException(null, "id can not be found");
+		}
+		return ResponseEntity.ok("Student deleted successfully");
+	}
+	
+	@GetMapping(path = "/{id}")
+	public Student getById(@PathVariable Integer id) {
+		if (id==null || id<=0) {
+			throw new OurRuntimeException(null, "id is mandatory");
+		}
+		Optional<Student> byId = studentRepository.findById(id);
+		if (byId.isPresent()) {
+			return byId.get();
+		}
+		else {
 			throw new OurRuntimeException(null, "id can not be found");
 		}
 	}
