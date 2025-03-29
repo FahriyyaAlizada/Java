@@ -6,6 +6,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.sql.DataSource;
 
@@ -19,11 +20,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import az.developia.spring_project_2sentyabr.entity.Student;
 import az.developia.spring_project_2sentyabr.exception.OurRuntimeException;
 import az.developia.spring_project_2sentyabr.repository.StudentRepository;
+import az.developia.spring_project_2sentyabr.response.StudentResponse;
 import jakarta.validation.Valid;
 
 @RestController
@@ -37,7 +40,7 @@ public class StudentRestController {
 	private StudentRepository studentRepository;
 
 	@GetMapping
-	public List<Student> getStudents(){
+	public StudentResponse getStudents(){
 		
 //		List<Student> students = new ArrayList<Student>();
 //		
@@ -64,9 +67,21 @@ public class StudentRestController {
 //			System.out.println(e.getMessage());
 //		}
 		
-		
-		return studentRepository.findAll();
+		StudentResponse response = new StudentResponse();
+		response.setStudents(studentRepository.findAll());
+		response.setHeight(1.65);
+		return response;
 	}
+	
+	@GetMapping(path="/search")
+	public List<Student> search(@RequestParam(name="query", required = false) String query) {
+		List<Student> all = studentRepository.findAll();
+		if (query==null) {
+			return all;
+		}
+		return all.stream().filter(student -> student.getName().toLowerCase().contains(query.toLowerCase()))
+				.collect(Collectors.toList());
+		}
 	
 	@PostMapping(path="/add")
 	public void addStudent(@Valid @RequestBody Student student, BindingResult br) {

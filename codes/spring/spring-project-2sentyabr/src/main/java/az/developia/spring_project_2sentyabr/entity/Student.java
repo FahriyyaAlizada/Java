@@ -16,6 +16,7 @@ public class Student {
 	private Integer id;
 	@Size(min=2, max=40, message="name should be between 2-40 symbols...")
 	private String name;
+	@Size(min=2, max=40, message="surname should be between 2-40 symbols...")
 	private String surname;
 	
 	public Student(Integer id, String name, String surname) {
