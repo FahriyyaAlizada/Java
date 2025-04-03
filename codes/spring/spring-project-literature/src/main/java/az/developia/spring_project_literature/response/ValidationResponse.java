@@ -1,7 +1,7 @@
-package az.developia.spring_project_2sentyabr.response;
+package az.developia.spring_project_literature.response;
 
 public class ValidationResponse {
-
+	
 	private String field;
 	private String errorMessage;
 	public String getField() {
@@ -16,6 +16,4 @@ public class ValidationResponse {
 	public void setErrorMessage(String errorMessage) {
 		this.errorMessage = errorMessage;
 	}
-	
-	
 }

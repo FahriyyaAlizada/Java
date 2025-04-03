@@ -1,14 +1,8 @@
-package az.developia.spring_project_2sentyabr.response;
+package az.developia.spring_project_literature.response;
 
 import java.util.List;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 public class ExceptionResponse {
-
 	private String message;
 	private List<ValidationResponse> validations;
 	
@@ -28,7 +22,6 @@ public class ExceptionResponse {
 	public String toString() {
 		return "ExceptionResponse [message=" + message + ", validations=" + validations + "]";
 	}
-	
 	
 	
 }

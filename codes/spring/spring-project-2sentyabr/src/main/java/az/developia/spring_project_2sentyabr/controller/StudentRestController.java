@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import az.developia.spring_project_2sentyabr.dto.StudentRequestDto;
+import az.developia.spring_project_2sentyabr.dto.StudentResponseDto;
 import az.developia.spring_project_2sentyabr.entity.Student;
 import az.developia.spring_project_2sentyabr.exception.OurRuntimeException;
 import az.developia.spring_project_2sentyabr.repository.StudentRepository;
@@ -84,11 +86,12 @@ public class StudentRestController {
 		}
 	
 	@PostMapping(path="/add")
-	public void addStudent(@Valid @RequestBody Student student, BindingResult br) {
+	public void addStudent(@Valid @RequestBody StudentRequestDto dto, BindingResult br) {
 		if (br.hasErrors()) {
 			throw new OurRuntimeException(br,"error");
 		}
-		System.out.println(student);
+		
+//		System.out.println(student);
 		
 //		try {
 //			Connection connection = dataSource.getConnection();
@@ -100,19 +103,32 @@ public class StudentRestController {
 //			System.out.println(e.getMessage());
 //		}
 		
-		studentRepository.save(student);
-		student.setId(null);
+		Student s = new Student();
+		s.setId(null);
+		s.setName(dto.getName());
+		s.setSurname(dto.getSurname());
+		
+		studentRepository.save(s);
+//		student.setId(null);
 	}
 	
 	@PutMapping(path="/update")
-	public void update(@Valid @RequestBody Student student, BindingResult br) {
+	public void update(@Valid @RequestBody StudentRequestDto dto, BindingResult br) {
 		if (br.hasErrors()) {
 			throw new OurRuntimeException(br,"error");
 		}
-		if (student.getId()==null || student.getId()<=0) {
+		if (dto.getId()==null || dto.getId()<=0) {
 			throw new OurRuntimeException(null,"id is mandatory");
 		}
-		if (studentRepository.findById(student.getId()).isPresent()) {
+		
+		Optional<Student> byId = studentRepository.findById(dto.getId());
+		
+		if (byId.isPresent()) {
+			Student student = byId.get();
+			student.setId(dto.getId());
+			student.setName(dto.getName());
+			student.setSurname(dto.getSurname());
+			
 			studentRepository.save(student);
 		} else {
 			throw new OurRuntimeException(null, "id can not be found");
@@ -135,13 +151,18 @@ public class StudentRestController {
 	}
 	
 	@GetMapping(path = "/{id}")
-	public Student getById(@PathVariable Integer id) {
+	public StudentResponseDto getById(@PathVariable Integer id) {
 		if (id==null || id<=0) {
 			throw new OurRuntimeException(null, "id is mandatory");
 		}
 		Optional<Student> byId = studentRepository.findById(id);
 		if (byId.isPresent()) {
-			return byId.get();
+			Student student = byId.get();
+			StudentResponseDto response = new StudentResponseDto();
+			response.setId(student.getId());
+			response.setName(student.getName());
+			response.setSurname(student.getSurname());
+			return response;
 		}
 		else {
 			throw new OurRuntimeException(null, "id can not be found");
