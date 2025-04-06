@@ -20,6 +20,7 @@ import az.developia.spring_project_literature.dto.BookResponseDto;
 import az.developia.spring_project_literature.entity.Book;
 import az.developia.spring_project_literature.exception.OurRuntimeException;
 import az.developia.spring_project_literature.repository.BookRepository;
+import az.developia.spring_project_literature.service.BookService;
 import jakarta.validation.Valid;
 
 @RestController
@@ -27,85 +28,37 @@ import jakarta.validation.Valid;
 public class BookRestController {
 	
 	@Autowired
-	private BookRepository bookRepository;
-	
-	@GetMapping
-	public List<Book> getBooks(){
-		return bookRepository.findAll();
-	}
-	
-	@PostMapping(path="/add")
-	public void addBook(@Valid @RequestBody BookRequestDto dto, BindingResult br) {
-		if (br.hasErrors()) {
-			throw new OurRuntimeException(br,"error");
-		}
-		Book b = new Book();
-		b.setId(null);
-		b.setTitle(dto.getTitle());
-		b.setAuthor(dto.getAuthor());
-		b.setYear(dto.getYear());
-		
-		bookRepository.save(b);
-	}
-	
-	@PutMapping(path="/update")
-	public void update(@Valid @RequestBody BookRequestDto dto, BindingResult br) {
-		if (br.hasErrors()) {
-			throw new OurRuntimeException(br,"error");
-		}
-		if (dto.getId()==null || dto.getId()<=0) {
-			throw new OurRuntimeException(null,"id is mandatory");
-		}
-		
-		Optional<Book> byId = bookRepository.findById(dto.getId());
-		
-		if (byId.isPresent()) {
-			Book book = byId.get();
-			book.setId(dto.getId());
-			book.setTitle(dto.getTitle());
-			book.setAuthor(dto.getAuthor());
-			book.setYear(dto.getYear());
-			
-			bookRepository.save(book);
-		} else {
-			throw new OurRuntimeException(null, "id can not be found");
-		}
-	}
-	
-	@DeleteMapping(path = "/{id}")
-	public ResponseEntity<String> deleteBook(@PathVariable Integer id) {
-		if (id==null || id<=0) {
-			throw new OurRuntimeException(null, "id is mandatory");
-		}
-		Optional<Book> byId = bookRepository.findById(id);
-		if (byId.isPresent()) {
-			bookRepository.deleteById(id);
-		}
-		else {
-			throw new OurRuntimeException(null, "id can not be found");
-		}
-		return ResponseEntity.ok("Book deleted successfully");
-	}
-	
-	@GetMapping(path = "/{id}")
-	public BookResponseDto getById(@PathVariable Integer id) {
-		if (id==null || id<=0) {
-			throw new OurRuntimeException(null, "id is mandatory");
-		}
-		Optional<Book> byId = bookRepository.findById(id);
-		if (byId.isPresent()) {
-			Book book = byId.get();
-			BookResponseDto response = new BookResponseDto();
-			response.setId(book.getId());
-			response.setTitle(book.getTitle());
-			response.setAuthor(book.getAuthor());
-			response.setYear(book.getYear());
-			return response;
-		}
-		else {
-			throw new OurRuntimeException(null, "id can not be found");
-		}
-	}
-	
-	
+    private BookService bookService;
+
+    @GetMapping
+    public List<Book> getBooks() {
+        return bookService.getBooks();
+    }
+
+    @PostMapping(path = "/add")
+    public void addBook(@Valid @RequestBody BookRequestDto dto, BindingResult br) {
+        if (br.hasErrors()) {
+            throw new OurRuntimeException(br, "error");
+        }
+        bookService.addBook(dto);
+    }
+
+    @PutMapping(path = "/update")
+    public void update(@Valid @RequestBody BookRequestDto dto, BindingResult br) {
+        if (br.hasErrors()) {
+            throw new OurRuntimeException(br, "error");
+        }
+        bookService.updateBook(dto);
+    }
+
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<String> deleteBook(@PathVariable Integer id) {
+        bookService.deleteBook(id);
+        return ResponseEntity.ok("Book deleted successfully");
+    }
+
+    @GetMapping(path = "/{id}")
+    public BookResponseDto getById(@PathVariable Integer id) {
+        return bookService.getBookById(id);
+    }
 }
