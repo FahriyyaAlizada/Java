@@ -1,8 +1,12 @@
 package az.developia.spring_project_literature.dto;
 
+import jakarta.validation.constraints.Size;
+
 public class AuthRequestDto {
 	
+	@Size(min=2, max=50, message="Firstname should be min 2 and max 50 symbols")
 	private String firstName;
+	@Size(min=2, max=50, message="Lastname should be min 2 and max 50 symbols")
  	private String lastName;
  	private String username;
  	private String password;
