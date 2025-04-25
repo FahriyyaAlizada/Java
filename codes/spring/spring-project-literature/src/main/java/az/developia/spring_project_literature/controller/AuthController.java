@@ -28,4 +28,10 @@ public class AuthController {
 		}
  		return service.create(dto);
  	}
+ 	
+ 	@PostMapping(path="/login")
+ 	public String login(@RequestBody AuthRequestDto dto) {
+ 		return service.login(dto);
+ 	}
+ 	
 }
