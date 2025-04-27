@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import az.developia.spring_project_literature.exception.InvalidCredentialsException;
 import az.developia.spring_project_literature.exception.OurRuntimeException;
 import az.developia.spring_project_literature.response.ExceptionResponse;
 import az.developia.spring_project_literature.response.ValidationResponse;
@@ -17,6 +18,15 @@ import az.developia.spring_project_literature.response.ValidationResponse;
 
 @RestControllerAdvice
 public class ExcptionHandlers {
+	
+	@ExceptionHandler
+	@ResponseStatus(code = HttpStatus.UNAUTHORIZED)
+	public ExceptionResponse handleInvalidCredentialsException(InvalidCredentialsException exc) {
+		ExceptionResponse response = new ExceptionResponse();
+		response.setMessage(exc.getMessage());
+		return response;
+	}
+	
 	@ExceptionHandler
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
 	public ExceptionResponse handler(OurRuntimeException exc) {
