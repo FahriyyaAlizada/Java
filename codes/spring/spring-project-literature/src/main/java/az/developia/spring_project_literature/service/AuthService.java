@@ -1,10 +1,12 @@
 package az.developia.spring_project_literature.service;
 
+import java.util.Map;
 import java.util.Optional;
 
 import javax.management.RuntimeErrorException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -51,8 +53,16 @@ public class AuthService {
 		if (!user.isPresent() || !passwordEncoder.matches(dto.getPassword(), user.get().getPassword())) {
 			throw new InvalidCredentialsException("Username or password is incorrect");
 		}
-		
-		return jwtUtil.generateToken(user.get().getUsername());
+		return jwtUtil.generateToken(user.get().getUsername(),user.get().getFirstName(),user.get().getLastName(),user.get().getEmail());
 	}
+	
+
+	public ResponseEntity<Map<String, String>> getUserDetails(String token) {
+ 		if (token.startsWith("Bearer")) {
+ 			token=token.substring(7);
+ 		}
+ 		Map<String,String> claims = jwtUtil.extractClaims(token);
+ 		return ResponseEntity.ok(claims); 
+ 		}
  
 }

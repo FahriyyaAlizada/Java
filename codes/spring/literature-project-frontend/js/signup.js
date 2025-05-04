@@ -22,6 +22,7 @@ registrationForm.addEventListener('submit', (event) =>{
         if (response.ok) {
             const message = await response.text();
             alert(message);
+            window.location.href="login.html";
             document.getElementById('firstName').value = "";
             document.getElementById('lastName').value = "";
             document.getElementById('username').value = "";

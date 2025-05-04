@@ -21,6 +21,7 @@ loginForm.addEventListener('submit', (event) => {
             const token = await response.text();
             localStorage.setItem('token',token);
             alert("Login successfully");
+            window.location.href="index.html";
             document.getElementById('username').value = "";
             document.getElementById('password').value = "";
         } else {
