@@ -1,5 +1,7 @@
 package az.developia.spring_project_literature.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,4 +36,9 @@ public class MovieController {
 	public MovieResponse getAll() {
 		return movieService.get();
 	}
+	
+    @GetMapping("/getAllTitles")
+    public List<String> getAllTitles() {
+        return movieService.getAllTitles();
+    }
 }

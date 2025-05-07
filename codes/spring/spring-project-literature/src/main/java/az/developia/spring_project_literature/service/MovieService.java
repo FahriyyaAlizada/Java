@@ -1,5 +1,7 @@
 package az.developia.spring_project_literature.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -44,5 +46,9 @@ public class MovieService {
 		response.setMovies(movieRepository.findByUserId(id));
 		return response;
 	}
+
+    public List<String> getAllTitles() {
+        return movieRepository.findAllTitles();
+    }
 
 }

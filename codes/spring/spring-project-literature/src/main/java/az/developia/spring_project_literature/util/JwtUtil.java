@@ -28,7 +28,7 @@ public class JwtUtil {
 		
  		claims.put("firstName", firstName);
  		claims.put("lastName", lastName);
- 		claims.put("email", email);
+ 		claims.put("email", email); 
  		
  		return Jwts.builder()
  				
