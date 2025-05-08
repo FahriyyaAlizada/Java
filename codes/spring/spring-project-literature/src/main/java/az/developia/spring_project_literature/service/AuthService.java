@@ -14,6 +14,7 @@ import az.developia.spring_project_literature.dto.AuthRequestDto;
 import az.developia.spring_project_literature.entity.User;
 import az.developia.spring_project_literature.exception.InvalidCredentialsException;
 import az.developia.spring_project_literature.exception.OurRuntimeException;
+import az.developia.spring_project_literature.repository.MovieRepository;
 import az.developia.spring_project_literature.repository.UserRepository;
 import az.developia.spring_project_literature.util.JwtUtil;
 
@@ -24,6 +25,8 @@ public class AuthService {
 	private UserRepository userRepository;
 	@Autowired
  	private PasswordEncoder passwordEncoder;
+	@Autowired
+ 	private MovieRepository movieRepository;
 	@Autowired
  	private JwtUtil jwtUtil;
  
@@ -64,5 +67,20 @@ public class AuthService {
  		Map<String,String> claims = jwtUtil.extractClaims(token);
  		return ResponseEntity.ok(claims); 
  		}
+
+	public void delete(Integer id) {
+		if (id==null || id<=0) {
+			throw new OurRuntimeException(null, "Id is required");
+		}
+		Optional<User> found = userRepository.findById(id);
+		if (found.isPresent()) {
+			User user = found.get();
+			userRepository.deleteById(id);
+			movieRepository.deleteUserMovies(user.getId());
+		} else {
+			throw new OurRuntimeException(null, "Id cannot be found");
+		}
+		
+	}
  
 }

@@ -1,6 +1,7 @@
 package az.developia.spring_project_literature.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import az.developia.spring_project_literature.dto.MovieRequestDto;
 import az.developia.spring_project_literature.entity.Movie;
 import az.developia.spring_project_literature.entity.User;
+import az.developia.spring_project_literature.exception.OurRuntimeException;
 import az.developia.spring_project_literature.repository.MovieRepository;
 import az.developia.spring_project_literature.repository.UserRepository;
 import az.developia.spring_project_literature.response.MovieResponse;
@@ -47,8 +49,31 @@ public class MovieService {
 		return response;
 	}
 
-    public List<String> getAllTitles() {
-        return movieRepository.findAllTitles();
+    public List<String> getMovieTitle() {
+        return movieRepository.findMovieTitles();
     }
+
+	public void delete(Integer id) {
+		
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		User operatorUser = userRepository.getUserByUsername(username);
+		
+		if (id == null || id<=0) {
+			throw new OurRuntimeException(null, "Id is required");
+		}
+		Optional<Movie> movie = movieRepository.findById(id);
+		if (movie.isPresent()) {
+			if (movie.get().getUserId() == operatorUser.getId()) {
+				movieRepository.deleteById(id);
+			}
+			else {
+				throw new OurRuntimeException(null, "Delete your own movie");
+			}
+		}
+		else {
+			throw new OurRuntimeException(null, "Id cannot be found");
+		}
+		
+	}
 
 }
