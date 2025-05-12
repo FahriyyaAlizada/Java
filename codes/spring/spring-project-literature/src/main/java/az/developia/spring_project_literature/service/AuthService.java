@@ -1,9 +1,10 @@
 package az.developia.spring_project_literature.service;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
-import javax.management.RuntimeErrorException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,9 +12,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import az.developia.spring_project_literature.dto.AuthRequestDto;
+import az.developia.spring_project_literature.entity.Authorities;
 import az.developia.spring_project_literature.entity.User;
 import az.developia.spring_project_literature.exception.InvalidCredentialsException;
 import az.developia.spring_project_literature.exception.OurRuntimeException;
+import az.developia.spring_project_literature.repository.AuthorityRepository;
 import az.developia.spring_project_literature.repository.MovieRepository;
 import az.developia.spring_project_literature.repository.UserRepository;
 import az.developia.spring_project_literature.util.JwtUtil;
@@ -27,6 +30,8 @@ public class AuthService {
  	private PasswordEncoder passwordEncoder;
 	@Autowired
  	private MovieRepository movieRepository;
+	@Autowired
+ 	private AuthorityRepository authorityRepository;
 	@Autowired
  	private JwtUtil jwtUtil;
  
@@ -46,6 +51,12 @@ public class AuthService {
  		user.setEmail(dto.getEmail());
  		user.setPassword(encode);
  		userRepository.save(user);
+ 		
+		Authorities a1=new Authorities();
+		a1.setUsername(user.getUsername());
+		a1.setAuthority("ROLE_ADD_MOVIE");
+		authorityRepository.save(a1);
+ 		
  		return "User created successfully!";
  		
  	}
@@ -56,15 +67,20 @@ public class AuthService {
 		if (!user.isPresent() || !passwordEncoder.matches(dto.getPassword(), user.get().getPassword())) {
 			throw new InvalidCredentialsException("Username or password is incorrect");
 		}
-		return jwtUtil.generateToken(user.get().getUsername(),user.get().getFirstName(),user.get().getLastName(),user.get().getEmail());
+		List<String> authorityList =  authorityRepository.findByUsername(user.get().getUsername()).stream()
+				.map(Authorities :: getAuthority)
+				.collect(Collectors.toList());
+				
+		return 
+				jwtUtil.generateToken(user.get().getUsername(),user.get().getFirstName(),user.get().getLastName(),user.get().getEmail(),authorityList);
 	}
 	
 
-	public ResponseEntity<Map<String, String>> getUserDetails(String token) {
+	public ResponseEntity<Map<String, Object>> getUserDetails(String token) {
  		if (token.startsWith("Bearer")) {
  			token=token.substring(7);
  		}
- 		Map<String,String> claims = jwtUtil.extractClaims(token);
+ 		Map<String,Object> claims = jwtUtil.extractClaims(token);
  		return ResponseEntity.ok(claims); 
  		}
 
