@@ -2,6 +2,10 @@ package az.developia.spring_project_literature.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -45,7 +49,30 @@ public class MovieService {
 		Integer id = user.getId();
 		
 		MovieResponse response = new MovieResponse();
-		response.setMovies(movieRepository.findByUserId(id));
+//		response.setMovies(movieRepository.findByUserId(id));
+		
+		List<Movie> movies = movieRepository.findByUserId(id);
+		
+		Function<Movie, String> f = new Function<Movie, String>() {
+			
+			@Override
+			public String apply(Movie t) {
+				return t.getTitle();
+			}
+		};
+		
+		Predicate<String> pre = new Predicate<String>() {
+			
+			@Override
+			public boolean test(String t) {
+				return t.contains("a");
+			}
+		};
+		
+		List<String> filteredMovies = movies.stream()
+				.map(f).filter(pre).collect(Collectors.toList());
+		response.setMovies(filteredMovies);
+		
 		return response;
 	}
 
@@ -61,19 +88,24 @@ public class MovieService {
 		if (id == null || id<=0) {
 			throw new OurRuntimeException(null, "Id is required");
 		}
-		Optional<Movie> movie = movieRepository.findById(id);
-		if (movie.isPresent()) {
-			if (movie.get().getUserId() == operatorUser.getId()) {
+		
+		Supplier<OurRuntimeException> supplier = new Supplier<OurRuntimeException>() {
+			
+		    @Override
+		    public OurRuntimeException get() {
+		        return new OurRuntimeException(null, "Id cannot be found");
+		    }
+		};
+
+		Movie movie = movieRepository.findById(id).orElseThrow(supplier);
+		
+			if (movie.getUserId() == operatorUser.getId()) {
 				movieRepository.deleteById(id);
 			}
 			else {
 				throw new OurRuntimeException(null, "Delete your own movie");
 			}
 		}
-		else {
-			throw new OurRuntimeException(null, "Id cannot be found");
-		}
 		
 	}
 
-}

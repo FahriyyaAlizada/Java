@@ -5,22 +5,22 @@ import java.util.List;
 import az.developia.spring_project_literature.entity.Movie;
 
 public class MovieResponse {
-	private List<Movie> movies;
+	private List<String> movies;
 	
 	public MovieResponse() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public MovieResponse(List<Movie> movies) {
+	public MovieResponse(List<String> movies) {
 		super();
 		this.movies = movies;
 	}
 
-	public List<Movie> getMovies() {
+	public List<String> getMovies() {
 		return movies;
 	}
 
-	public void setMovies(List<Movie> movies) {
+	public void setMovies(List<String> movies) {
 		this.movies = movies;
 	}
 	
