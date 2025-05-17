@@ -1,7 +1,8 @@
 package az.developia.spring_project_literature.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Size;
-
+@Schema(name = "Auth Request Dto",description = "DTO that receives data")
 public class AuthRequestDto {
 	
 	@Size(min=2, max=50, message="Firstname should be min 2 and max 50 symbols")

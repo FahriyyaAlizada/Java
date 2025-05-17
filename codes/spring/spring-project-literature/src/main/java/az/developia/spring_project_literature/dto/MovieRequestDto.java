@@ -1,5 +1,8 @@
 package az.developia.spring_project_literature.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema(name = "Movie Request Dto",description = "DTO that receives data")
 public class MovieRequestDto {
 	
 	private Integer id;
