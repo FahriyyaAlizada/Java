@@ -1,36 +1,30 @@
-package az.developia.spring_project_literature.dto;
+package az.developia.spring_project_literature.response;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-
-@Schema(name = "Movie Request Dto",description = "DTO that receives data")
-public class MovieRequestDto {
+public class MovieResponseDto {
 	
-	private Integer id;
-	@Capitalized
+	private Integer Id;
 	private String title;
 	private String genre;	
 	private Integer rating;	
-	private Integer userId;
 	
-	public MovieRequestDto() {
+	public MovieResponseDto() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public MovieRequestDto(Integer id, String title, String genre, Integer rating, Integer userId) {
+	public MovieResponseDto(Integer id, String title, String genre, Integer rating) {
 		super();
-		this.id = id;
+		Id = id;
 		this.title = title;
 		this.genre = genre;
 		this.rating = rating;
-		this.userId = userId;
 	}
 
 	public Integer getId() {
-		return id;
+		return Id;
 	}
 
 	public void setId(Integer id) {
-		this.id = id;
+		Id = id;
 	}
 
 	public String getTitle() {
@@ -55,14 +49,6 @@ public class MovieRequestDto {
 
 	public void setRating(Integer rating) {
 		this.rating = rating;
-	}
-
-	public Integer getUserId() {
-		return userId;
-	}
-
-	public void setUserId(Integer userId) {
-		this.userId = userId;
 	}
 	
 	

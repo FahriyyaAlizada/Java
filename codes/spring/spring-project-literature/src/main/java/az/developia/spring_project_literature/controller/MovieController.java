@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import az.developia.spring_project_literature.dto.MovieRequestDto;
 import az.developia.spring_project_literature.response.MovieResponse;
+import az.developia.spring_project_literature.response.MovieResponseDto;
 import az.developia.spring_project_literature.service.MovieService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -74,5 +75,10 @@ public class MovieController {
 			)
 	public void deleteMovie(@PathVariable Integer id) {
 		movieService.delete(id);
+	}
+	
+	@GetMapping(path="/{id}")
+	public MovieResponseDto getById(@PathVariable Integer id) {
+		return movieService.getMovieById(id);
 	}
 }

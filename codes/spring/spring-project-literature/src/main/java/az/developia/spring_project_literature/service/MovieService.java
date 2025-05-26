@@ -18,6 +18,7 @@ import az.developia.spring_project_literature.exception.OurRuntimeException;
 import az.developia.spring_project_literature.repository.MovieRepository;
 import az.developia.spring_project_literature.repository.UserRepository;
 import az.developia.spring_project_literature.response.MovieResponse;
+import az.developia.spring_project_literature.response.MovieResponseDto;
 
 @Service
 public class MovieService {
@@ -106,6 +107,23 @@ public class MovieService {
 				throw new OurRuntimeException(null, "Delete your own movie");
 			}
 		}
+
+	public MovieResponseDto getMovieById(Integer id) {
+		if (id == null || id <= 0) {
+			throw new OurRuntimeException(null, "Id is required");
+		}
+		Optional<Movie> movie = movieRepository.findById(id);
+		if (movie.isPresent()) {
+			MovieResponseDto res = new MovieResponseDto();
+			res.setId(movie.get().getId());
+			res.setTitle(movie.get().getTitle());
+			res.setGenre(movie.get().getGenre());
+			res.setRating(movie.get().getRating());
+			return res;
+		}else {
+			throw new OurRuntimeException(null, "Id cannot be found");
+		}
+	}
 		
 	}
 

@@ -9,6 +9,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import az.developia.spring_project_literature.exception.InvalidCredentialsException;
 import az.developia.spring_project_literature.exception.OurRuntimeException;
@@ -51,5 +52,15 @@ public class ExcptionHandlers {
 			}
 		response.setMessage(exc.getMessage());
 		return response;
+	}
+	
+	
+	@ExceptionHandler
+	@ResponseStatus(code = HttpStatus.BAD_REQUEST) //400
+	public ExceptionResponse handlec(MethodArgumentTypeMismatchException exc) {
+		ExceptionResponse response = new ExceptionResponse();
+		response.setMessage("Id cannot be string");
+		return response;
+		
 	}
 }
