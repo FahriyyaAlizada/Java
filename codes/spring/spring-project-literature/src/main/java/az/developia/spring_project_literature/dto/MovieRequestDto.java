@@ -6,7 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 public class MovieRequestDto {
 	
 	private Integer id;
-	@Capitalized
+	@Capitalized()
 	private String title;
 	private String genre;	
 	private Integer rating;	

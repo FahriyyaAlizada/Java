@@ -11,6 +11,7 @@ public class AuthRequestDto {
  	private String lastName;
  	private String username;
  	private String password;
+ 	@ValidEmail()
  	private String email;
  	
  	public AuthRequestDto() {

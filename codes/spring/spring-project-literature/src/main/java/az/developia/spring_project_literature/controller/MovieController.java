@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,12 +15,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import az.developia.spring_project_literature.dto.MovieRequestDto;
+import az.developia.spring_project_literature.exception.OurRuntimeException;
 import az.developia.spring_project_literature.response.MovieResponse;
 import az.developia.spring_project_literature.response.MovieResponseDto;
 import az.developia.spring_project_literature.service.MovieService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(path = "/movies")
@@ -46,7 +49,10 @@ public class MovieController {
 			description = "Add Movie",
 			summary = "This is a summary for add Movie"
 			)
-	public void create(@RequestBody MovieRequestDto dto) {
+	public void create(@Valid @RequestBody MovieRequestDto dto,BindingResult br) {
+ 		if (br.hasErrors()) {
+			throw new OurRuntimeException(br, "");
+		}
 		movieService.add(dto);
 	}
 	

@@ -36,7 +36,7 @@ public class AuthService {
  	private JwtUtil jwtUtil;
  
  	public String create(AuthRequestDto dto) {
- 		
+
  		Optional<User> byUsername = userRepository.findByUsername(dto.getUsername());
  		if (byUsername.isPresent()) {
 			throw new OurRuntimeException(null,"Username exists");
