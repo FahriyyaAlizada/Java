@@ -1,6 +1,8 @@
 package az.developia.spring_project_literature.config;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -42,7 +44,17 @@ public class AuthFilter extends OncePerRequestFilter {
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
         	
         	Map<String,Object> claims = jwtUtil.extractClaims(token);
-			List<String> authorities = (List<String>) claims.get("authorities");
+//			List<String> authorities = (List<String>) claims.get("authorities");
+        	
+        	Object object = claims.get("authorities");
+        	List<String> authorities = new ArrayList<String>();
+        	if (object instanceof List) {
+				authorities = (List<String>) object;
+			}else if(object instanceof String[]) {
+				authorities = Arrays.asList((String[]) object);
+			}else if(object instanceof String) {
+				authorities = Arrays.asList((String) object);
+			}
         	
         	List<SimpleGrantedAuthority> grantedAuthority = authorities.stream()
         			.map(SimpleGrantedAuthority::new )
