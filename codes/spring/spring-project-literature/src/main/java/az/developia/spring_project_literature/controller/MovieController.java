@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import az.developia.spring_project_literature.dto.MovieRequestDto;
+import az.developia.spring_project_literature.entity.Movie;
 import az.developia.spring_project_literature.exception.OurRuntimeException;
 import az.developia.spring_project_literature.response.MovieResponse;
 import az.developia.spring_project_literature.response.MovieResponseDto;
@@ -63,6 +64,11 @@ public class MovieController {
 			)
 	public MovieResponse getAll() {
 		return movieService.get();
+	}
+	
+	@GetMapping(path = "/pagination/begin/{begin}/length/{length}")
+	public List<Movie> pagination(@PathVariable Integer begin, @PathVariable Integer length) {
+		return movieService.findPagination(begin,length);
 	}
 	
     @GetMapping("/title")

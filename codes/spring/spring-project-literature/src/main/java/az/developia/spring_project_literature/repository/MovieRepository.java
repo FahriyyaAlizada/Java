@@ -21,4 +21,6 @@ public interface MovieRepository extends JpaRepository<Movie, Integer>{
     @Modifying
 	void deleteUserMovies(Integer userId);
 
+    @Query(value = "SELECT * FROM movies limit ?1, ?2", nativeQuery = true)
+    List<Movie> pagination(Integer b, Integer l);
 }

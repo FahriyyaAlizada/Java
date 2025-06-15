@@ -124,6 +124,10 @@ public class MovieService {
 			throw new OurRuntimeException(null, "Id cannot be found");
 		}
 	}
+
+	public List<Movie> findPagination(Integer begin, Integer length) {
+		return movieRepository.pagination(begin, length);
+	}
 		
 	}
 
