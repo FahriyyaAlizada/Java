@@ -13,10 +13,12 @@ import org.springframework.stereotype.Service;
 
 import az.developia.spring_project_literature.dto.MovieRequestDto;
 import az.developia.spring_project_literature.entity.Movie;
+import az.developia.spring_project_literature.entity.TestEntity;
 import az.developia.spring_project_literature.entity.User;
 import az.developia.spring_project_literature.exception.OurRuntimeException;
 import az.developia.spring_project_literature.repository.MovieRepository;
 import az.developia.spring_project_literature.repository.UserRepository;
+import az.developia.spring_project_literature.repository.ViewRepository;
 import az.developia.spring_project_literature.response.MovieResponse;
 import az.developia.spring_project_literature.response.MovieResponseDto;
 
@@ -28,6 +30,9 @@ public class MovieService {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private ViewRepository viewRepository;
 
 	public void add(MovieRequestDto dto) {
 		
@@ -127,6 +132,10 @@ public class MovieService {
 
 	public List<Movie> findPagination(Integer begin, Integer length) {
 		return movieRepository.pagination(begin, length);
+	}
+
+	public List<TestEntity> findView() {
+		return viewRepository.findAll();
 	}
 		
 	}

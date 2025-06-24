@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import az.developia.spring_project_literature.dto.MovieRequestDto;
 import az.developia.spring_project_literature.entity.Movie;
+import az.developia.spring_project_literature.entity.TestEntity;
 import az.developia.spring_project_literature.exception.OurRuntimeException;
 import az.developia.spring_project_literature.response.MovieResponse;
 import az.developia.spring_project_literature.response.MovieResponseDto;
@@ -92,5 +93,10 @@ public class MovieController {
 	@GetMapping(path="/{id}")
 	public MovieResponseDto getById(@PathVariable Integer id) {
 		return movieService.getMovieById(id);
+	}
+	
+	@GetMapping(path = "/view")
+	public List<TestEntity> getView(){
+		return movieService.findView();
 	}
 }
