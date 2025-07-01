@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -90,7 +91,7 @@ public class MovieController {
 		movieService.delete(id);
 	}
 	
-	@GetMapping(path="/{id}")
+	@GetMapping(path="/{id}",produces = {"application/json","application/xml"})
 	public MovieResponseDto getById(@PathVariable Integer id) {
 		return movieService.getMovieById(id);
 	}
@@ -98,5 +99,13 @@ public class MovieController {
 	@GetMapping(path = "/view")
 	public List<TestEntity> getView(){
 		return movieService.findView();
+	}
+	
+	@PutMapping(path = "/update")
+	public void movieUpdate(@Valid @RequestBody MovieRequestDto dto, BindingResult br) {
+		if (br.hasErrors()) {
+			throw new OurRuntimeException(br, "");
+		}
+		movieService.update(dto);
 	}
 }

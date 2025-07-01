@@ -7,6 +7,7 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ import az.developia.spring_project_literature.repository.UserRepository;
 import az.developia.spring_project_literature.repository.ViewRepository;
 import az.developia.spring_project_literature.response.MovieResponse;
 import az.developia.spring_project_literature.response.MovieResponseDto;
+import jakarta.validation.Valid;
 
 @Service
 public class MovieService {
@@ -33,6 +35,9 @@ public class MovieService {
 	
 	@Autowired
 	private ViewRepository viewRepository;
+	
+	@Autowired
+	private ModelMapper mapper;
 
 	public void add(MovieRequestDto dto) {
 		
@@ -42,9 +47,10 @@ public class MovieService {
 		
 		Movie movie = new Movie();
 		movie.setId(null);
-		movie.setTitle(dto.getTitle());
-		movie.setGenre(dto.getGenre());
-		movie.setRating(dto.getRating());
+//		movie.setTitle(dto.getTitle());
+//		movie.setGenre(dto.getGenre());
+//		movie.setRating(dto.getRating());
+		mapper.map(dto, movie);
 		movie.setUserId(id);
 		movieRepository.save(movie);
 	}
@@ -136,6 +142,22 @@ public class MovieService {
 
 	public List<TestEntity> findView() {
 		return viewRepository.findAll();
+	}
+
+	public void update(@Valid MovieRequestDto dto) {
+		
+		if (dto.getId() == null || dto.getId() <= 0) {
+			throw new OurRuntimeException(null, "Id is required");
+		}
+		Optional<Movie> byId = movieRepository.findById(dto.getId());
+		if (byId.isPresent()) {
+			Movie movie = byId.get();
+			mapper.map(dto, movie);
+			movieRepository.save(movie);
+		}else {
+			throw new OurRuntimeException(null, "Id cannot be found");
+		}
+		
 	}
 		
 	}
