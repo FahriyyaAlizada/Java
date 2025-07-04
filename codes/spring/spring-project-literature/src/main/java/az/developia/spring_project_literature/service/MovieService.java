@@ -1,5 +1,6 @@
 package az.developia.spring_project_literature.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -22,6 +23,7 @@ import az.developia.spring_project_literature.repository.UserRepository;
 import az.developia.spring_project_literature.repository.ViewRepository;
 import az.developia.spring_project_literature.response.MovieResponse;
 import az.developia.spring_project_literature.response.MovieResponseDto;
+import az.developia.spring_project_literature.response.MovieResponseModel;
 import jakarta.validation.Valid;
 
 @Service
@@ -158,6 +160,16 @@ public class MovieService {
 			throw new OurRuntimeException(null, "Id cannot be found");
 		}
 		
+	}
+
+	public List<MovieResponseModel> convertMovieToResponseModel(List<Movie> movies) {
+		List<MovieResponseModel> dtos = new ArrayList<MovieResponseModel>();
+		for (Movie movie : movies) {
+			MovieResponseModel dto = new MovieResponseModel();
+			mapper.map(movie, dto);
+			dtos.add(dto);
+		}
+		return dtos;
 	}
 		
 	}

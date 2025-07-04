@@ -3,6 +3,7 @@ package az.developia.spring_project_literature.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,9 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import az.developia.spring_project_literature.dto.MovieRequestDto;
+import az.developia.spring_project_literature.dynamic.DynamicFiltering;
 import az.developia.spring_project_literature.entity.Movie;
 import az.developia.spring_project_literature.entity.TestEntity;
 import az.developia.spring_project_literature.exception.OurRuntimeException;
+import az.developia.spring_project_literature.repository.MovieRepository;
+import az.developia.spring_project_literature.response.MovieListResponseModel;
 import az.developia.spring_project_literature.response.MovieResponse;
 import az.developia.spring_project_literature.response.MovieResponseDto;
 import az.developia.spring_project_literature.service.MovieService;
@@ -36,6 +40,12 @@ public class MovieController {
 	
 	@Autowired
 	private MovieService movieService;
+	
+	@Autowired
+	private MovieRepository movieRepository;
+	
+	@Autowired
+	private DynamicFiltering filtering;
 	
 	@GetMapping
 	@Operation(
@@ -107,5 +117,23 @@ public class MovieController {
 			throw new OurRuntimeException(br, "");
 		}
 		movieService.update(dto);
+	}
+	
+	@GetMapping(path = "/id-title")
+	public MappingJacksonValue getMovieIdTitle() {
+		MovieListResponseModel response = new MovieListResponseModel();
+		List<Movie> movies = movieRepository.findAll();
+		
+		response.setMovieResponse(movieService.convertMovieToResponseModel(movies));
+		return filtering.filter("movies", response, "id","title");
+	}
+	
+	@GetMapping(path = "/title-genre")
+	public MappingJacksonValue getMovieTitleGenre() {
+		MovieListResponseModel response = new MovieListResponseModel();
+		List<Movie> movies = movieRepository.findAll();
+		
+		response.setMovieResponse(movieService.convertMovieToResponseModel(movies));
+		return filtering.filter("movies", response, "title","genre");
 	}
 }
