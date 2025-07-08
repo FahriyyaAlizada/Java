@@ -27,6 +27,8 @@ import az.developia.spring_project_literature.response.MovieResponse;
 import az.developia.spring_project_literature.response.MovieResponseDto;
 import az.developia.spring_project_literature.service.MovieService;
 import io.swagger.v3.oas.annotations.Operation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -37,6 +39,8 @@ import jakarta.validation.Valid;
 @SecurityRequirement(name = "bearerAuth")
 @Tag(name = "Movie Controller",description = "Movie APIs")
 public class MovieController {
+	
+	private Logger log = LoggerFactory.getLogger(MovieController.class);
 	
 	@Autowired
 	private MovieService movieService;
@@ -75,6 +79,7 @@ public class MovieController {
 			summary = "This is a summary for get Movies"
 			)
 	public MovieResponse getAll() {
+		log.info("Get All Movies");
 		return movieService.get();
 	}
 	
@@ -116,6 +121,7 @@ public class MovieController {
 		if (br.hasErrors()) {
 			throw new OurRuntimeException(br, "");
 		}
+		log.info("Put API " + dto);
 		movieService.update(dto);
 	}
 	
