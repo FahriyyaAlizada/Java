@@ -64,6 +64,14 @@ public class MovieRequestDto {
 	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
+
+	@Override
+	public String toString() {
+		return "MovieRequestDto [id=" + id + ", title=" + title + ", genre=" + genre + ", rating=" + rating
+				+ ", userId=" + userId + "]";
+	}
+	
+	
 	
 	
 }
