@@ -1,9 +1,9 @@
 package dec18;
 
-public class Operations {
+public class Divider {
 	
 	public int divide(int a, int b) {
-		if (b==0) {
+		if (a==0 || b==0) {			
 			throw new Exception("Number can not be divided into 0...");
 		}
 		return a/b;
