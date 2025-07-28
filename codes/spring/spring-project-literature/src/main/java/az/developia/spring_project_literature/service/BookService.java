@@ -2,6 +2,7 @@ package az.developia.spring_project_literature.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,15 @@ public class BookService {
 
         bookRepository.save(b);
     }
+    
+	public List<Book> search(String query) {
+		List<Book> all = bookRepository.findAll();
+		if (query==null) {
+			return all;
+		}
+		return all.stream().filter(book -> book.getTitle().toLowerCase().contains(query.toLowerCase()))
+				.collect(Collectors.toList());
+	}
 
     public void updateBook(BookRequestDto dto) {
         if (dto.getId() == null || dto.getId() <= 0) {

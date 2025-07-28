@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import az.developia.spring_project_literature.dto.BookRequestDto;
@@ -42,6 +43,11 @@ public class BookRestController {
         }
         bookService.addBook(dto);
     }
+    
+	@GetMapping(path="/search")
+	public List<Book> search(@RequestParam(name="query", required = false) String query) {
+		return bookService.search(query);
+		}
 
     @PutMapping(path = "/update")
     public void update(@Valid @RequestBody BookRequestDto dto, BindingResult br) {

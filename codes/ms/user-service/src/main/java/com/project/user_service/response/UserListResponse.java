@@ -8,13 +8,16 @@ public class UserListResponse {
 	
 	private List<UserEntity> userResponse;
 	
+	private List<UserResponse> userWithMovies;
+	
 	public UserListResponse() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public UserListResponse(List<UserEntity> userResponse) {
+	public UserListResponse(List<UserEntity> userResponse, List<UserResponse> userWithMovies) {
 		super();
 		this.userResponse = userResponse;
+		this.userWithMovies = userWithMovies;
 	}
 
 	public List<UserEntity> getUserResponse() {
@@ -24,6 +27,16 @@ public class UserListResponse {
 	public void setUserResponse(List<UserEntity> userResponse) {
 		this.userResponse = userResponse;
 	}
+
+	public List<UserResponse> getUserWithMovies() {
+		return userWithMovies;
+	}
+
+	public void setUserWithMovies(List<UserResponse> userWithMovies) {
+		this.userWithMovies = userWithMovies;
+	}
+
+	
 	
 	
 }

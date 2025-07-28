@@ -1,5 +1,6 @@
 package com.project.user_service.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,10 +8,13 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.project.user_service.entity.UserEntity;
 import com.project.user_service.repository.UserRepository;
+import com.project.user_service.response.MovieListResponse;
 import com.project.user_service.response.UserListResponse;
+import com.project.user_service.response.UserResponse;
 
 @RestController
 @RequestMapping(path = "/users")
@@ -29,5 +33,33 @@ public class UserController {
 		response.setUserResponse(users);
 		
 		return response;
+	}
+	
+	@GetMapping(path = "/with-movies")
+	public UserListResponse getUserWithMovies() {
+		UserListResponse resp = new UserListResponse();
+		
+		RestTemplate rest = new RestTemplate();
+		
+		List<UserEntity> users = userRepository.findAll();
+		
+		List<UserResponse> userWithMovies = new ArrayList<UserResponse>();
+		
+		for (UserEntity userEntity : users) {
+			UserResponse response = new UserResponse();
+			response.setId(userEntity.getId());
+			response.setFirstName(userEntity.getFirstName());
+			response.setLastName(userEntity.getLastName());
+			
+			MovieListResponse movieResp = rest.getForObject("http://localhost:9081/movies/user/" + userEntity.getId(), MovieListResponse.class);
+			
+			response.setMovies(movieResp.getMovieResponse());
+			
+			userWithMovies.add(response);
+		}
+		
+		resp.setUserWithMovies(userWithMovies);
+		
+		return resp;
 	}
 }
