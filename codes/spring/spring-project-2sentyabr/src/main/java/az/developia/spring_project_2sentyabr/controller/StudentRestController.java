@@ -2,7 +2,6 @@ package az.developia.spring_project_2sentyabr.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,7 +18,6 @@ import az.developia.spring_project_2sentyabr.dto.StudentRequestDto;
 import az.developia.spring_project_2sentyabr.dto.StudentResponseDto;
 import az.developia.spring_project_2sentyabr.entity.Student;
 import az.developia.spring_project_2sentyabr.exception.OurRuntimeException;
-import az.developia.spring_project_2sentyabr.repository.StudentRepository;
 import az.developia.spring_project_2sentyabr.response.StudentResponse;
 import az.developia.spring_project_2sentyabr.service.StudentService;
 import jakarta.validation.Valid;
